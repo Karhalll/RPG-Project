@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-using RPG.Saving;
+using GameDevTV.Saving;
 
 namespace RPG.SceneManagement
 {
@@ -48,7 +48,7 @@ namespace RPG.SceneManagement
 
         public void Load()
         {
-            GetComponent<SavingSystem>().Load(defaultSaveFile);
+            GetComponent<SavingSystem>().LoadLastScene(defaultSaveFile);
         }
 
         public void Delete()
