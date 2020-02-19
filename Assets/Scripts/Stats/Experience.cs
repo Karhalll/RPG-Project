@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-using GameDevTV.Saving;
+using RPG.Saving;
 
 namespace RPG.Stats
 {
