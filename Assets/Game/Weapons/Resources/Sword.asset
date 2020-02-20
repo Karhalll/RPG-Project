@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff37063c0a0aeb42a2d1906c7e27756, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
+  itemID: 9b33436a-a6cb-4345-87b2-a8d6d8f2aca0
+  displayName: Sword
+  description: -"Ouch!" "Who pinch me?"
+  icon: {fileID: 21300000, guid: d19901b0ee3c38743a7d383bd484b0b5, type: 3}
+  pickup: {fileID: 7753637296300203025, guid: bdc66112662eb0f438a99cc06ab02781, type: 3}
+  stackable: 0
+  allowedEquipLocation: 5
   animatorOverride: {fileID: 22100000, guid: 046ee780c3d51be408cfe3eb155caa9e, type: 2}
   equippedPrefab: {fileID: 1006926412547641939, guid: 55e67f7602570cf428c434e8cd29e547,
     type: 3}

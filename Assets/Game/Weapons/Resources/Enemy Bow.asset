@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ff37063c0a0aeb42a2d1906c7e27756, type: 3}
   m_Name: Enemy Bow
   m_EditorClassIdentifier: 
+  itemID: 88e1b14e-3151-4fd5-b481-48087ce849f1
+  displayName: 
+  description: 
+  icon: {fileID: 0}
+  pickup: {fileID: 5737671713412114576, guid: 2a6024c94c1e8264b9b262f78c994cc8, type: 3}
+  stackable: 0
+  allowedEquipLocation: 5
   animatorOverride: {fileID: 22100000, guid: 1e7eee42860e8ad458a269db864c9615, type: 2}
   equippedPrefab: {fileID: 494791582673987375, guid: d35c0f3499a112848a52e21c247b4447,
     type: 3}
