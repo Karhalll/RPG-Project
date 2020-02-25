@@ -1,4 +1,5 @@
 using GameDevTV.Inventories;
+using RPG.Stats;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,18 +10,19 @@ namespace RPG.Inventories
         // CONFIG DATA
         [Tooltip("How far can the pickup be scatterd from the dropper.")]
         [SerializeField] float scatterdDistance = 1;
-        [SerializeField] InventoryItem[] dropLibrary;
-        [SerializeField] int numberOfDrops = 2;
+        [SerializeField] DropLibrary dropLibrary;
 
         // CONSTANTS
         const int ATTEMPTS = 30;
 
         public void RandomDrop()
         {
-            for (int i = 0; i < numberOfDrops; i++)
+            BaseStats baseStats = GetComponent<BaseStats>();
+            
+            var drops = dropLibrary.GetRandomDrops(baseStats.GetLevel());
+            foreach (var drop in drops)
             {
-                InventoryItem randomItem = dropLibrary[Random.Range(0, dropLibrary.Length)];
-                DropItem(randomItem);
+                DropItem(drop.item, drop.number);
             }
         }
 
