@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 using RPG.Attributes;
@@ -7,29 +7,26 @@ namespace RPG.Combat
 {
     public class Projectile : MonoBehaviour
     {
-        [SerializeField] float speed = 1f;
-        [SerializeField] bool isHoming = false;
+        [SerializeField] float speed = 1;
+        [SerializeField] bool isHoming = true;
         [SerializeField] GameObject hitEffect = null;
-        [SerializeField] float maxLifeTime = 10f;
+        [SerializeField] float maxLifeTime = 10;
         [SerializeField] GameObject[] destroyOnHit = null;
-        [SerializeField] float lifeAfterImpact = 2f;
-
+        [SerializeField] float lifeAfterImpact = 2;
         [SerializeField] UnityEvent onHit;
 
         Health target = null;
         GameObject instigator = null;
-        Vector3 targetPositionAtFireTime;
-        float damage = 0f;
+        float damage = 0;
 
-        private void Start() 
+        private void Start()
         {
             transform.LookAt(GetAimLocation());
         }
 
-        private void Update() 
+        void Update()
         {
             if (target == null) return;
-
             if (isHoming && !target.IsDead())
             {
                 transform.LookAt(GetAimLocation());
@@ -37,10 +34,9 @@ namespace RPG.Combat
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
-        public void SetTarget(Health target,GameObject instigator, float damage)
+        public void SetTarget(Health target, GameObject instigator, float damage)
         {
             this.target = target;
-            this.targetPositionAtFireTime = target.transform.position;
             this.damage = damage;
             this.instigator = instigator;
 
@@ -54,17 +50,16 @@ namespace RPG.Combat
             {
                 return target.transform.position;
             }
-            
             return target.transform.position + Vector3.up * targetCapsule.height / 2;
         }
 
-        private void OnTriggerEnter(Collider other) 
+        private void OnTriggerEnter(Collider other)
         {
             if (other.GetComponent<Health>() != target) return;
             if (target.IsDead()) return;
             target.TakeDamage(instigator, damage);
 
-            speed = 0f;
+            speed = 0;
 
             onHit.Invoke();
 
@@ -77,8 +72,11 @@ namespace RPG.Combat
             {
                 Destroy(toDestroy);
             }
-            
+
             Destroy(gameObject, lifeAfterImpact);
+
         }
+
     }
+
 }

@@ -1,14 +1,15 @@
+﻿using UnityEngine;
+
 using GameDevTV.Inventories;
-using UnityEngine;
 
 namespace RPG.Control
-{ 
+{
     [RequireComponent(typeof(Pickup))]
     public class ClickablePickup : MonoBehaviour, IRaycastable
     {
         Pickup pickup;
 
-        private void Awake() 
+        private void Awake()
         {
             pickup = GetComponent<Pickup>();
         }
@@ -25,7 +26,7 @@ namespace RPG.Control
             }
         }
 
-        public bool HendleRaycast(PlayerController callingController)
+        public bool HandleRaycast(PlayerController callingController)
         {
             if (Input.GetMouseButtonDown(0))
             {

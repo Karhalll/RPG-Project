@@ -9,21 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ff37063c0a0aeb42a2d1906c7e27756, type: 3}
+  m_Script: {fileID: 11500000, guid: f2591c982fc81e940845bedeabeb30af, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
-  itemID: 9b33436a-a6cb-4345-87b2-a8d6d8f2aca0
+  itemID: 77ad666c-513c-4c88-87b2-c8594bcd5a89
   displayName: Sword
-  description: -"Ouch!" "Who pinch me?"
+  description: 
   icon: {fileID: 21300000, guid: d19901b0ee3c38743a7d383bd484b0b5, type: 3}
-  pickup: {fileID: 7753637296300203025, guid: bdc66112662eb0f438a99cc06ab02781, type: 3}
+  pickup: {fileID: 5791415848479646380, guid: fdfb68bd34d88af4fbb8a679645d8598, type: 3}
   stackable: 0
   allowedEquipLocation: 5
-  animatorOverride: {fileID: 22100000, guid: 046ee780c3d51be408cfe3eb155caa9e, type: 2}
-  equippedPrefab: {fileID: 1006926412547641939, guid: 55e67f7602570cf428c434e8cd29e547,
+  animatorOverride: {fileID: 22100000, guid: 6abe8133a41100b4695842c4b61fdb80, type: 2}
+  equippedPrefab: {fileID: 442137872338528657, guid: c77f288c2f5ccac44bbf4e7d1eb1dee0,
     type: 3}
+  weaponDamage: 8
+  percentageBonus: 40
   weaponRange: 2
-  weaponDamage: 10
-  percentageBonus: 20
   isRightHanded: 1
   projectile: {fileID: 0}

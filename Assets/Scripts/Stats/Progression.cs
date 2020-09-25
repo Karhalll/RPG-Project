@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 namespace RPG.Stats
 {
@@ -21,10 +21,10 @@ namespace RPG.Stats
                 return 0;
             }
 
-            return levels[level -1];
+            return levels[level - 1];
         }
 
-        public int GetLevels (Stat stat, CharacterClass characterClass)
+        public int GetLevels(Stat stat, CharacterClass characterClass)
         {
             BuildLookup();
 

@@ -1,17 +1,17 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+using System;
+using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 using RPG.Movement;
 using RPG.Attributes;
-using System;
 
 namespace RPG.Control
 {
     public class PlayerController : MonoBehaviour
     {
         Health health;
- 
+
         [System.Serializable]
         struct CursorMapping
         {
@@ -22,24 +22,22 @@ namespace RPG.Control
 
         [SerializeField] CursorMapping[] cursorMappings = null;
         [SerializeField] float maxNavMeshProjectionDistance = 1f;
-        [SerializeField] float raycastRadius = 0.3f;
+        [SerializeField] float raycastRadius = 1f;
 
         bool isDraggingUI = false;
 
-        private void Awake() 
-        {
+        private void Awake() {
             health = GetComponent<Health>();
         }
 
-        void Update()
+        private void Update()
         {
             if (InteractWithUI()) return;
-
-            if (health.IsDead())
+            if (health.IsDead()) 
             {
                 SetCursor(CursorType.None);
                 return;
-            } 
+            }
 
             if (InteractWithComponent()) return;
             if (InteractWithMovement()) return;
@@ -66,7 +64,7 @@ namespace RPG.Control
             {
                 return true;
             }
-            return false;           
+            return false;
         }
 
         private bool InteractWithComponent()
@@ -75,11 +73,11 @@ namespace RPG.Control
             foreach (RaycastHit hit in hits)
             {
                 IRaycastable[] raycastables = hit.transform.GetComponents<IRaycastable>();
-                foreach (IRaycastable raycasteble in raycastables)
+                foreach (IRaycastable raycastable in raycastables)
                 {
-                    if (raycasteble.HendleRaycast(this))
+                    if (raycastable.HandleRaycast(this))
                     {
-                        SetCursor(raycasteble.GetCursorType());
+                        SetCursor(raycastable.GetCursorType());
                         return true;
                     }
                 }
@@ -96,7 +94,6 @@ namespace RPG.Control
                 distances[i] = hits[i].distance;
             }
             Array.Sort(distances, hits);
-
             return hits;
         }
 
@@ -104,14 +101,13 @@ namespace RPG.Control
         {
             Vector3 target;
             bool hasHit = RaycastNavMesh(out target);
-
             if (hasHit)
             {
-                if (!GetComponent<Mover>().CanMoveTo(target)) { return false; }
+                if (!GetComponent<Mover>().CanMoveTo(target)) return false;
 
                 if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().StartMoveAction(target);
+                    GetComponent<Mover>().StartMoveAction(target, 1f);
                 }
                 SetCursor(CursorType.Movement);
                 return true;
@@ -126,7 +122,7 @@ namespace RPG.Control
             RaycastHit hit;
             bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
             if (!hasHit) return false;
-            
+
             NavMeshHit navMeshHit;
             bool hasCastToNavMesh = NavMesh.SamplePosition(
                 hit.point, out navMeshHit, maxNavMeshProjectionDistance, NavMesh.AllAreas);

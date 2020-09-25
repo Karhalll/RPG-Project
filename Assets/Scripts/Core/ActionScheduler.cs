@@ -2,19 +2,18 @@ using UnityEngine;
 
 namespace RPG.Core
 {
-    public class ActionScheduler : MonoBehaviour 
+    public class ActionScheduler : MonoBehaviour
     {
-        IAction curretAction;
+        IAction currentAction;
 
         public void StartAction(IAction action)
         {
-            if (curretAction == action) return;
-            if (curretAction != null)
+            if (currentAction == action) return;
+            if (currentAction != null)
             {
-                curretAction.Cancel();
+                currentAction.Cancel();
             }
-        
-            curretAction = action;
+            currentAction = action;
         }
 
         public void CancelCurrentAction()

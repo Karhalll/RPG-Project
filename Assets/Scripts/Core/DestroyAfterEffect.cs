@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RPG.Core
 {
@@ -6,7 +6,7 @@ namespace RPG.Core
     {
         [SerializeField] GameObject targetToDestroy = null;
 
-        private void Update() 
+        void Update()
         {
             if (!GetComponent<ParticleSystem>().IsAlive())
             {

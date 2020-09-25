@@ -1,19 +1,18 @@
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 using GameDevTV.Inventories;
 
 using RPG.Stats;
-using System.Collections.Generic;
 
 namespace RPG.Inventories
 {
     public class StatsEquipment : Equipment, IModifierProvider
     {
-        public IEnumerable<float> GetAdditiveModifiers(Stat stat)
+        IEnumerable<float> IModifierProvider.GetAdditiveModifiers(Stat stat)
         {
             foreach (var slot in GetAllPopulatedSlots())
             {
-                IModifierProvider item = GetItemInSlot(slot) as IModifierProvider;
+                var item = GetItemInSlot(slot) as IModifierProvider;
                 if (item == null) continue;
 
                 foreach (float modifier in item.GetAdditiveModifiers(stat))
@@ -23,18 +22,19 @@ namespace RPG.Inventories
             }
         }
 
-        public IEnumerable<float> GetPercentageMofifier(Stat stat)
+        IEnumerable<float> IModifierProvider.GetPercentageModifiers(Stat stat)
         {
             foreach (var slot in GetAllPopulatedSlots())
             {
-                IModifierProvider item = GetItemInSlot(slot) as IModifierProvider;
+                var item = GetItemInSlot(slot) as IModifierProvider;
                 if (item == null) continue;
 
-                foreach (float modifier in item.GetPercentageMofifier(stat))
+                foreach (float modifier in item.GetPercentageModifiers(stat))
                 {
                     yield return modifier;
                 }
             }
         }
+
     }
 }

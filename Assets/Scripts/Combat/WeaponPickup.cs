@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-using RPG.Control;
 using RPG.Attributes;
+using RPG.Control;
 
 namespace RPG.Combat
 {
@@ -10,11 +10,11 @@ namespace RPG.Combat
     {
         [SerializeField] WeaponConfig weapon = null;
         [SerializeField] float healthToRestore = 0;
-        [SerializeField] float respawnTime = 5f;
-
+        [SerializeField] float respawnTime = 5;
+    
         private void OnTriggerEnter(Collider other) 
         {
-            if (other.tag == "Player")
+            if (other.gameObject.tag == "Player")
             {
                 Pickup(other.gameObject);
             }
@@ -42,14 +42,14 @@ namespace RPG.Combat
 
         private void ShowPickup(bool shouldShow)
         {
-            gameObject.GetComponent<Collider>().enabled = shouldShow;
+            GetComponent<Collider>().enabled = shouldShow;
             foreach (Transform child in transform)
             {
                 child.gameObject.SetActive(shouldShow);
             }
         }
 
-        public bool HendleRaycast(PlayerController callingController)
+        public bool HandleRaycast(PlayerController callingController)
         {
             if (Input.GetMouseButtonDown(0))
             {

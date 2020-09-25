@@ -13,9 +13,9 @@ namespace RPG.Combat
     {
         [SerializeField] AnimatorOverrideController animatorOverride = null;
         [SerializeField] Weapon equippedPrefab = null;
+        [SerializeField] float weaponDamage = 5f;
+        [SerializeField] float percentageBonus = 0;
         [SerializeField] float weaponRange = 2f;
-        [SerializeField] float weaponDamage = 10f;
-        [SerializeField] float percentageBonus = 0f;
         [SerializeField] bool isRightHanded = true;
         [SerializeField] Projectile projectile = null;
 
@@ -26,6 +26,7 @@ namespace RPG.Combat
             DestroyOldWeapon(rightHand, leftHand);
 
             Weapon weapon = null;
+
             if (equippedPrefab != null)
             {
                 Transform handTransform = GetTransform(rightHand, leftHand);
@@ -36,7 +37,7 @@ namespace RPG.Combat
             var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
             if (animatorOverride != null)
             {
-                animator.runtimeAnimatorController = animatorOverride;
+                animator.runtimeAnimatorController = animatorOverride; 
             }
             else if (overrideController != null)
             {
@@ -59,10 +60,10 @@ namespace RPG.Combat
             Destroy(oldWeapon.gameObject);
         }
 
-        private Transform GetTransform(Transform righthand, Transform leftHand)
+        private Transform GetTransform(Transform rightHand, Transform leftHand)
         {
             Transform handTransform;
-            if (isRightHanded) handTransform = righthand;
+            if (isRightHanded) handTransform = rightHand;
             else handTransform = leftHand;
             return handTransform;
         }
@@ -78,9 +79,9 @@ namespace RPG.Combat
             projectileInstance.SetTarget(target, instigator, calculatedDamage);
         }
 
-        public float GetRange()
+        public float GetDamage()
         {
-            return weaponRange;
+            return weaponDamage;
         }
 
         public float GetPercentageBonus()
@@ -88,9 +89,9 @@ namespace RPG.Combat
             return percentageBonus;
         }
 
-        public float GetDamage()
+        public float GetRange()
         {
-            return weaponDamage;
+            return weaponRange;
         }
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
@@ -101,7 +102,7 @@ namespace RPG.Combat
             }
         }
 
-        public IEnumerable<float> GetPercentageMofifier(Stat stat)
+        public IEnumerable<float> GetPercentageModifiers(Stat stat)
         {
             if (stat == Stat.Damage)
             {

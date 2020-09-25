@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
 using GameDevTV.Utils;
 
@@ -7,41 +6,37 @@ using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
 using RPG.Attributes;
-using System;
 
 namespace RPG.Control
 {
     public class AIController : MonoBehaviour
     {
         [SerializeField] float chaseDistance = 5f;
-        [SerializeField] float chaseSpeed = 4f;
-        [SerializeField] float suspicionTime = 5f;
-        [SerializeField] float agroCooldownTime = 6f;
+        [SerializeField] float suspicionTime = 3f;
+        [SerializeField] float agroCooldownTime = 5f;
         [SerializeField] PatrolPath patrolPath;
-        [SerializeField] float patrolSpeed = 2f;
-        [SerializeField] float dwellingTime = 3f;
         [SerializeField] float waypointTolerance = 1f;
+        [SerializeField] float waypointDwellTime = 3f;
+        [Range(0,1)]
+        [SerializeField] float patrolSpeedFraction = 0.2f;
         [SerializeField] float shoutDistance = 5f;
 
-        GameObject player;
-        Health health;
         Fighter fighter;
+        Health health;
         Mover mover;
-        NavMeshAgent navMeshAgent;
+        GameObject player;
 
         LazyValue<Vector3> guardPosition;
         float timeSinceLastSawPlayer = Mathf.Infinity;
-        float timeSinceStartDwelling = Mathf.Infinity;
+        float timeSinceArrivedAtWaypoint = Mathf.Infinity;
         float timeSinceAggrevated = Mathf.Infinity;
-        int curretWaypointIndex = 0;
+        int currentWaypointIndex = 0;
 
-        private void Awake() 
-        {
+        private void Awake() {
             fighter = GetComponent<Fighter>();
-            player = GameObject.FindWithTag("Player");
             health = GetComponent<Health>();
             mover = GetComponent<Mover>();
-            navMeshAgent = GetComponent<NavMeshAgent>();
+            player = GameObject.FindWithTag("Player");
 
             guardPosition = new LazyValue<Vector3>(GetGuardPosition);
         }
@@ -51,8 +46,7 @@ namespace RPG.Control
             return transform.position;
         }
 
-        private void Start() 
-        {
+        private void Start() {
             guardPosition.ForceInit();
         }
 
@@ -84,7 +78,7 @@ namespace RPG.Control
         private void UpdateTimers()
         {
             timeSinceLastSawPlayer += Time.deltaTime;
-            timeSinceStartDwelling += Time.deltaTime;
+            timeSinceArrivedAtWaypoint += Time.deltaTime;
             timeSinceAggrevated += Time.deltaTime;
         }
 
@@ -96,17 +90,15 @@ namespace RPG.Control
             {
                 if (AtWaypoint())
                 {
-                    timeSinceStartDwelling = 0;
+                    timeSinceArrivedAtWaypoint = 0;
                     CycleWaypoint();
                 }
-
                 nextPosition = GetCurrentWaypoint();
             }
 
-            if (timeSinceStartDwelling > dwellingTime)
+            if (timeSinceArrivedAtWaypoint > waypointDwellTime)
             {
-                navMeshAgent.speed = patrolSpeed;
-                mover.StartMoveAction(nextPosition);
+                mover.StartMoveAction(nextPosition, patrolSpeedFraction);
             }
         }
 
@@ -118,12 +110,12 @@ namespace RPG.Control
 
         private void CycleWaypoint()
         {
-            curretWaypointIndex = patrolPath.GetNextIndex(curretWaypointIndex);
+            currentWaypointIndex = patrolPath.GetNextIndex(currentWaypointIndex);
         }
 
         private Vector3 GetCurrentWaypoint()
         {
-            return patrolPath.GetWaypoint(curretWaypointIndex);
+            return patrolPath.GetWaypoint(currentWaypointIndex);
         }
 
         private void SuspicionBehaviour()
@@ -133,7 +125,6 @@ namespace RPG.Control
 
         private void AttackBehaviour()
         {
-            navMeshAgent.speed = chaseSpeed;
             timeSinceLastSawPlayer = 0;
             fighter.Attack(player);
 
@@ -147,7 +138,7 @@ namespace RPG.Control
             {
                 AIController ai = hit.collider.GetComponent<AIController>();
                 if (ai == null) continue;
-                
+
                 ai.Aggrevate();
             }
         }
@@ -155,14 +146,13 @@ namespace RPG.Control
         private bool IsAggrevated()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-            return distanceToPlayer <= chaseDistance || timeSinceAggrevated < agroCooldownTime;
+            return distanceToPlayer < chaseDistance || timeSinceAggrevated < agroCooldownTime;
         }
 
         // Called by Unity
-        private void OnDrawGizmosSelected() 
-        {
-           Gizmos.color = Color.blue;
-           Gizmos.DrawWireSphere(transform.position, chaseDistance);  
+        private void OnDrawGizmosSelected() {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
         }
     }
 }

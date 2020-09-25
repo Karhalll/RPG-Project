@@ -10,19 +10,21 @@ namespace RPG.Inventories
     [CreateAssetMenu(menuName = ("RPG/Inventory/Equipable Item"))]
     public class StatsEquipableItem : EquipableItem, IModifierProvider
     {
-        [SerializeField] Modifier[] addtiveModifier;
-        [SerializeField] Modifier[] percentageModifier;
+        [SerializeField]
+        Modifier[] additiveModifiers;
+        [SerializeField]
+        Modifier[] percentageModifiers;
 
         [System.Serializable]
         struct Modifier
         {
             public Stat stat;
             public float value;
-        }
+        }   
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)
         {
-            foreach (Modifier modifier in addtiveModifier)
+            foreach (var modifier in additiveModifiers)
             {
                 if (modifier.stat == stat)
                 {
@@ -31,9 +33,9 @@ namespace RPG.Inventories
             }
         }
 
-        public IEnumerable<float> GetPercentageMofifier(Stat stat)
+        public IEnumerable<float> GetPercentageModifiers(Stat stat)
         {
-            foreach (Modifier modifier in percentageModifier)
+            foreach (var modifier in percentageModifiers)
             {
                 if (modifier.stat == stat)
                 {

@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RPG.Stats
 {
-    public interface IModifierProvider 
+    public interface IModifierProvider
     {
         IEnumerable<float> GetAdditiveModifiers(Stat stat);
-        IEnumerable<float> GetPercentageMofifier(Stat stat);
+        IEnumerable<float> GetPercentageModifiers(Stat stat);
     }
 }

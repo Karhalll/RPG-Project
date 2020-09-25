@@ -1,17 +1,18 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 using GameDevTV.Inventories;
 
 namespace RPG.Inventories
 {
-    [CreateAssetMenu(fileName = "DropLibrary", menuName = "RPG/DropLibrary")]
+    [CreateAssetMenu(menuName = ("RPG/Inventory/Drop Library"))]
     public class DropLibrary : ScriptableObject
     {
-        [SerializeField] DropConfig[] potentialDrops;
+        [SerializeField]
+        DropConfig[] potentialDrops;
         [SerializeField] float[] dropChancePercentage;
-        [SerializeField] int[] minDrop;
-        [SerializeField] int[] maxDrop;
+        [SerializeField] int[] minDrops;
+        [SerializeField] int[] maxDrops;
 
         [System.Serializable]
         class DropConfig
@@ -52,20 +53,20 @@ namespace RPG.Inventories
 
         bool ShouldRandomDrop(int level)
         {
-            return Random.Range(0f, 100f) < GetByLevel(dropChancePercentage, level);
+            return Random.Range(0, 100) < GetByLevel(dropChancePercentage, level);
         }
 
         int GetRandomNumberOfDrops(int level)
         {
-            int min = GetByLevel(minDrop, level);
-            int max = GetByLevel(maxDrop, level);
-            return UnityEngine.Random.Range(min, max + 1);
+            int min = GetByLevel(minDrops, level);
+            int max = GetByLevel(maxDrops, level);
+            return Random.Range(min, max);
         }
 
         Dropped GetRandomDrop(int level)
         {
-            Dropped result = new Dropped();
-            DropConfig drop = SelectRandomItem(level);
+            var drop = SelectRandomItem(level);
+            var result = new Dropped();
             result.item = drop.item;
             result.number = drop.GetRandomNumber(level);
             return result;
@@ -78,7 +79,7 @@ namespace RPG.Inventories
             float chanceTotal = 0;
             foreach (var drop in potentialDrops)
             {
-                chanceTotal += GetByLevel(drop.relativeChance, level); ;
+                chanceTotal += GetByLevel(drop.relativeChance, level);
                 if (chanceTotal > randomRoll)
                 {
                     return drop;
@@ -90,7 +91,7 @@ namespace RPG.Inventories
         float GetTotalChance(int level)
         {
             float total = 0;
-            foreach (var drop in potentialDrops)        
+            foreach (var drop in potentialDrops)
             {
                 total += GetByLevel(drop.relativeChance, level);
             }
@@ -111,7 +112,7 @@ namespace RPG.Inventories
             {
                 return default;
             }
-            return values[level -1];
+            return values[level - 1];
         }
     }
 }

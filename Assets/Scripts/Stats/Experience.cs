@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-using RPG.Saving;
+using GameDevTV.Saving;
 
 namespace RPG.Stats
 {
@@ -17,7 +17,7 @@ namespace RPG.Stats
             onExperienceGained();
         }
 
-        public float GetExperience()
+        public float GetPoints()
         {
             return experiencePoints;
         }
