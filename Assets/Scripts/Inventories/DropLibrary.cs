@@ -9,18 +9,18 @@ namespace RPG.Inventories
     public class DropLibrary : ScriptableObject
     {
         [SerializeField]
-        DropConfig[] potentialDrops;
-        [SerializeField] float[] dropChancePercentage;
-        [SerializeField] int[] minDrops;
-        [SerializeField] int[] maxDrops;
+        DropConfig[] potentialDrops = null;
+        [SerializeField] float[] dropChancePercentage = null;
+        [SerializeField] int[] minDrops = null;
+        [SerializeField] int[] maxDrops = null;
 
         [System.Serializable]
         class DropConfig
         {
-            public InventoryItem item;
-            public float[] relativeChance;
-            public int[] minNumber;
-            public int[] maxNumber;
+            public InventoryItem item = null;
+            public float[] relativeChance = null;
+            public int[] minNumber = null;
+            public int[] maxNumber = null;
             public int GetRandomNumber(int level)
             {
                 if (!item.IsStackable())

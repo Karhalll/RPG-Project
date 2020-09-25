@@ -13,11 +13,11 @@ namespace RPG.Control
         Health health;
 
         [System.Serializable]
-        struct CursorMapping
+        class CursorMapping
         {
-            public CursorType type;
-            public Texture2D texture;
-            public Vector2 hotspot;
+            public CursorType type = CursorType.None;
+            public Texture2D texture = null;
+            public Vector2 hotspot = new Vector2();
         }
 
         [SerializeField] CursorMapping[] cursorMappings = null;

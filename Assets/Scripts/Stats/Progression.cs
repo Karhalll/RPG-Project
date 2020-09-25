@@ -54,15 +54,15 @@ namespace RPG.Stats
         [System.Serializable]
         class ProgressionCharacterClass
         {
-            public CharacterClass characterClass;
-            public ProgressionStat[] stats;
+            public CharacterClass characterClass = new CharacterClass();
+            public ProgressionStat[] stats = null;
         }
 
         [System.Serializable]
         class ProgressionStat
         {
-            public Stat stat;
-            public float[] levels;
+            public Stat stat = new Stat();
+            public float[] levels = null;
         }
     }
 }

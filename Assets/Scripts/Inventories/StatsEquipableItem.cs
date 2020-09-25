@@ -11,15 +11,15 @@ namespace RPG.Inventories
     public class StatsEquipableItem : EquipableItem, IModifierProvider
     {
         [SerializeField]
-        Modifier[] additiveModifiers;
+        Modifier[] additiveModifiers = null;
         [SerializeField]
-        Modifier[] percentageModifiers;
+        Modifier[] percentageModifiers = null;
 
         [System.Serializable]
-        struct Modifier
+        class Modifier
         {
-            public Stat stat;
-            public float value;
+            public Stat stat = new Stat();
+            public float value = 0f;
         }   
 
         public IEnumerable<float> GetAdditiveModifiers(Stat stat)

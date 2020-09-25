@@ -13,7 +13,7 @@ namespace RPG.Combat
         [SerializeField] float maxLifeTime = 10;
         [SerializeField] GameObject[] destroyOnHit = null;
         [SerializeField] float lifeAfterImpact = 2;
-        [SerializeField] UnityEvent onHit;
+        [SerializeField] UnityEvent onHit = null;
 
         Health target = null;
         GameObject instigator = null;
