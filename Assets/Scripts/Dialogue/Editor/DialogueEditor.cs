@@ -18,6 +18,10 @@ namespace RPG.Dialogue.Editor
         Vector2 draggingOffset;
         [NonSerialized]
         DialogueNode creatingNode = null;
+        [NonSerialized]
+        DialogueNode deletingNode = null;
+        [NonSerialized]
+        DialogueNode linkingParentNode = null;
 
         [MenuItem("Window/Dialogue Editor")]
         public static void ShowEditorWindow()
@@ -76,9 +80,15 @@ namespace RPG.Dialogue.Editor
                 }
                 if (creatingNode != null)
                 {
-                      Undo.RecordObject(selectedDialogue, "Added Dialogue Node");
-                      selectedDialogue.CreateNode(creatingNode);
+                    Undo.RecordObject(selectedDialogue, "Added Dialogue Node");
+                    selectedDialogue.CreateNode(creatingNode);
                     creatingNode = null;
+                }
+                if (deletingNode != null)
+                {
+                    Undo.RecordObject(selectedDialogue, "Deleted Dialogue Node");
+                    selectedDialogue.DeleteNode(deletingNode);
+                    deletingNode = null;
                 }
             }
         }
@@ -106,27 +116,72 @@ namespace RPG.Dialogue.Editor
         }
 
         private void DrawNode(DialogueNode node)
+    {
+      GUILayout.BeginArea(node.rect, nodeStyle);
+      EditorGUI.BeginChangeCheck();
+
+      string newText = EditorGUILayout.TextField(node.text);
+
+      if (EditorGUI.EndChangeCheck())
+      {
+        Undo.RecordObject(selectedDialogue, "Update Dialogue Text");
+        node.text = newText;
+      }
+
+      GUILayout.BeginHorizontal();
+
+      if (GUILayout.Button("Add New"))
+      {
+        creatingNode = node;
+      }
+      DrawLinkButtons(node);
+      if (GUILayout.Button("Delete"))
+      {
+        deletingNode = node;
+      }
+
+      GUILayout.EndHorizontal();
+
+      GUILayout.EndArea();
+    }
+
+    private void DrawLinkButtons(DialogueNode node)
+    {
+        if (linkingParentNode == null)
         {
-            GUILayout.BeginArea(node.rect, nodeStyle);
-            EditorGUI.BeginChangeCheck();
-
-            string newText = EditorGUILayout.TextField(node.text);
-
-            if (EditorGUI.EndChangeCheck())
+            if (GUILayout.Button("Link"))
             {
-                Undo.RecordObject(selectedDialogue, "Update Dialogue Text");
-                node.text = newText;			
+                linkingParentNode = node;
             }
-
-            if (GUILayout.Button("+"))
-            {
-                creatingNode = node;
-            }
-
-            GUILayout.EndArea();
         }
+        else if (node == linkingParentNode)
+        {
+            if (GUILayout.Button("Cancle"))
+            {
+                linkingParentNode = null;
+            }
+        }
+        else if (linkingParentNode.children.Contains(node.uniqueID))
+        {
+            if (GUILayout.Button("Unlink"))
+            {
+                Undo.RecordObject(selectedDialogue, "Delete Dialogue Link");
+                linkingParentNode.children.Remove(node.uniqueID);
+                linkingParentNode = null;
+            }
+        }
+        else 
+        {
+            if (GUILayout.Button("Child"))
+            {
+                Undo.RecordObject(selectedDialogue, "Add Dialogue Link");
+                linkingParentNode.children.Add(node.uniqueID);
+                linkingParentNode = null;
+            }
+        }
+    }
 
-        private void DrawConnection(DialogueNode node)
+    private void DrawConnection(DialogueNode node)
         {
             Vector2 startPosition = new Vector2(
                 node.rect.xMax - nodeStyle.border.right / 2f,
@@ -135,10 +190,11 @@ namespace RPG.Dialogue.Editor
             {
                 Vector2 endPosition = new Vector2(
                     childNode.rect.xMin + nodeStyle.border.left/2f,
-                      childNode.rect.center.y);
+                    childNode.rect.center.y);
                 Vector2 controlPointOffset = endPosition - startPosition;
                 controlPointOffset.y = 0;
                 controlPointOffset.x *= 0.5f;
+
                 Handles.DrawBezier(
                     startPosition, endPosition, 
                     startPosition + controlPointOffset, 
@@ -154,7 +210,7 @@ namespace RPG.Dialogue.Editor
             {
                 if (node.rect.Contains(point))
                 {
-                      foundValue = node;
+                    foundValue = node;
                 }
             }
             return foundValue;
