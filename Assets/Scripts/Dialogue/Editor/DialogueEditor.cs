@@ -116,72 +116,72 @@ namespace RPG.Dialogue.Editor
         }
 
         private void DrawNode(DialogueNode node)
-    {
-      GUILayout.BeginArea(node.rect, nodeStyle);
-      EditorGUI.BeginChangeCheck();
-
-      string newText = EditorGUILayout.TextField(node.text);
-
-      if (EditorGUI.EndChangeCheck())
-      {
-        Undo.RecordObject(selectedDialogue, "Update Dialogue Text");
-        node.text = newText;
-      }
-
-      GUILayout.BeginHorizontal();
-
-      if (GUILayout.Button("Add New"))
-      {
-        creatingNode = node;
-      }
-      DrawLinkButtons(node);
-      if (GUILayout.Button("Delete"))
-      {
-        deletingNode = node;
-      }
-
-      GUILayout.EndHorizontal();
-
-      GUILayout.EndArea();
-    }
-
-    private void DrawLinkButtons(DialogueNode node)
-    {
-        if (linkingParentNode == null)
         {
-            if (GUILayout.Button("Link"))
+            GUILayout.BeginArea(node.rect, nodeStyle);
+            EditorGUI.BeginChangeCheck();
+
+            string newText = EditorGUILayout.TextField(node.text);
+
+            if (EditorGUI.EndChangeCheck())
             {
-                linkingParentNode = node;
+                Undo.RecordObject(selectedDialogue, "Update Dialogue Text");
+                node.text = newText;
+            }
+
+            GUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Add New"))
+            {
+                creatingNode = node;
+            }
+            DrawLinkButtons(node);
+            if (GUILayout.Button("Delete"))
+            {
+                deletingNode = node;
+            }
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndArea();
+        }
+
+        private void DrawLinkButtons(DialogueNode node)
+        {
+            if (linkingParentNode == null)
+            {
+                if (GUILayout.Button("Link"))
+                {
+                    linkingParentNode = node;
+                }
+            }
+            else if (node == linkingParentNode)
+            {
+                if (GUILayout.Button("Cancle"))
+                {
+                    linkingParentNode = null;
+                }
+            }
+            else if (linkingParentNode.children.Contains(node.uniqueID))
+            {
+                if (GUILayout.Button("Unlink"))
+                {
+                    Undo.RecordObject(selectedDialogue, "Delete Dialogue Link");
+                    linkingParentNode.children.Remove(node.uniqueID);
+                    linkingParentNode = null;
+                }
+            }
+            else 
+            {
+                if (GUILayout.Button("Child"))
+                {
+                    Undo.RecordObject(selectedDialogue, "Add Dialogue Link");
+                    linkingParentNode.children.Add(node.uniqueID);
+                    linkingParentNode = null;
+                }
             }
         }
-        else if (node == linkingParentNode)
-        {
-            if (GUILayout.Button("Cancle"))
-            {
-                linkingParentNode = null;
-            }
-        }
-        else if (linkingParentNode.children.Contains(node.uniqueID))
-        {
-            if (GUILayout.Button("Unlink"))
-            {
-                Undo.RecordObject(selectedDialogue, "Delete Dialogue Link");
-                linkingParentNode.children.Remove(node.uniqueID);
-                linkingParentNode = null;
-            }
-        }
-        else 
-        {
-            if (GUILayout.Button("Child"))
-            {
-                Undo.RecordObject(selectedDialogue, "Add Dialogue Link");
-                linkingParentNode.children.Add(node.uniqueID);
-                linkingParentNode = null;
-            }
-        }
-    }
 
-    private void DrawConnection(DialogueNode node)
+        private void DrawConnection(DialogueNode node)
         {
             Vector2 startPosition = new Vector2(
                 node.rect.xMax - nodeStyle.border.right / 2f,
