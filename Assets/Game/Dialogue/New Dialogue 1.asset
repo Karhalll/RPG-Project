@@ -14,11 +14,72 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodes:
   - uniqueID: 8b040a12-5e33-4aff-a13b-4038409e1839
+    text: Hello
+    children:
+    - acb460c8-20fc-4b83-908b-ce0608a94d56
+    - a15a9f91-3367-4cd7-bd18-7e79bac5c72f
+    - 37371396-b4d8-4c00-8884-1bf6f1e62c28
+    - a2897fb9-b3e3-4f95-91f6-cae083862fe7
+    rect:
+      serializedVersion: 2
+      x: -11
+      y: 7
+      width: 200
+      height: 100
+  - uniqueID: acb460c8-20fc-4b83-908b-ce0608a94d56
+    text: 
+    children:
+    - 8ef9cd5a-57a4-44e2-af10-b73b2dde61c8
+    rect:
+      serializedVersion: 2
+      x: 278
+      y: 111
+      width: 200
+      height: 100
+  - uniqueID: a15a9f91-3367-4cd7-bd18-7e79bac5c72f
+    text: 
+    children:
+    - 8ef9cd5a-57a4-44e2-af10-b73b2dde61c8
+    rect:
+      serializedVersion: 2
+      x: 280
+      y: 10
+      width: 200
+      height: 100
+  - uniqueID: 37371396-b4d8-4c00-8884-1bf6f1e62c28
     text: 
     children: []
     rect:
       serializedVersion: 2
-      x: 0
-      y: 0
+      x: 280
+      y: 326
+      width: 200
+      height: 100
+  - uniqueID: 8ef9cd5a-57a4-44e2-af10-b73b2dde61c8
+    text: 
+    children: []
+    rect:
+      serializedVersion: 2
+      x: 528
+      y: 10
+      width: 200
+      height: 100
+  - uniqueID: baf7e065-f78c-4e43-98f9-b4ec69d25863
+    text: 
+    children: []
+    rect:
+      serializedVersion: 2
+      x: 530
+      y: 213
+      width: 200
+      height: 100
+  - uniqueID: a2897fb9-b3e3-4f95-91f6-cae083862fe7
+    text: 
+    children:
+    - baf7e065-f78c-4e43-98f9-b4ec69d25863
+    rect:
+      serializedVersion: 2
+      x: 281
+      y: 213
       width: 200
       height: 100
