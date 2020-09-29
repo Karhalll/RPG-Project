@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace RPG.Dialogue
         {
             if (nodes.Count == 0)
             {
-                nodes.Add(new DialogueNode());
+                nodes.Add(CreateNodeWithUniqueID());
             }
         }
 #endif
@@ -50,6 +51,21 @@ namespace RPG.Dialogue
                     yield return nodeLookup[childID];
                 }
             }
+        }
+
+        public void CreateNode(DialogueNode parent)
+        {
+            DialogueNode newNode = CreateNodeWithUniqueID();
+            parent.children.Add(newNode.uniqueID);
+            nodes.Add(newNode);
+            OnValidate();
+        }
+
+        private DialogueNode CreateNodeWithUniqueID()
+        {
+            DialogueNode newNode = new DialogueNode();
+            newNode.uniqueID = Guid.NewGuid().ToString();
+            return newNode;
         }
     }
 }

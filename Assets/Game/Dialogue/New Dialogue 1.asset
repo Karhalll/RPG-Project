@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: New Dialogue 1
   m_EditorClassIdentifier: 
   nodes:
-  - uniqueID: 
-    text: Hello Fela!
+  - uniqueID: 8b040a12-5e33-4aff-a13b-4038409e1839
+    text: 
     children: []
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 200
+      height: 100
