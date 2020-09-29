@@ -105,6 +105,11 @@ namespace RPG.Dialogue.Editor
 				node.uniqueID = newUniqueID;
 			}
 
+			foreach (DialogueNode childNode in selectedDialogue.GetAllChildren(node))
+			{
+				EditorGUILayout.LabelField(childNode.text);
+			}
+
 			GUILayout.EndArea();
 		}
 
